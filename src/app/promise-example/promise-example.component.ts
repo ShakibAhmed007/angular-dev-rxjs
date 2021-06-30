@@ -7,21 +7,25 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./promise-example.component.css']
 })
 export class PromiseExampleComponent implements OnInit {
-  x = 11;
+  x = 10;
   msg: any;
 
   constructor() {}
 
-  ngOnInit() {
-    let promise = new Promise((resolve, reject) => {
-      if (this.x === 10) {
+  ngOnInit() {}
+
+  getPromiseData() {
+    return new Promise((resolve, reject) => {
+      if (this.x === 11) {
         resolve('Promise resolved !!!');
       } else {
         reject('Promise Rejected !!!');
       }
     });
+  }
 
-    promise.then(
+  getPromise() {
+    this.getPromiseData().then(
       res => {
         this.msg = res;
       },
@@ -29,5 +33,22 @@ export class PromiseExampleComponent implements OnInit {
         this.msg = error;
       }
     );
+  }
+
+  getPromiseWithChaining() {
+    this.getPromiseData()
+      .then(res => {
+        return res + ' With chaining 1 !!!';
+      })
+      .then(res => {
+        return res + ' With chaining 2 !!!';
+      })
+      .then(res => {
+        this.msg = res;
+        console.log(res);
+      })
+      .catch(error => {
+        this.msg = error;
+      });
   }
 }
