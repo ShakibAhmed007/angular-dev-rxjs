@@ -1,4 +1,3 @@
-
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 
@@ -22,6 +21,7 @@ export class ObservableExampleComponent implements OnInit {
       }, 1000);
     });
 
+    console.log('just before subscribe');
     observable.subscribe({
       next(x) {
         console.log(x);
@@ -33,5 +33,6 @@ export class ObservableExampleComponent implements OnInit {
         console.log('Done');
       }
     });
+    console.log('just after subscribe');
   }
 }
