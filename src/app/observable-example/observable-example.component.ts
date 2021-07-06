@@ -6,7 +6,7 @@ import { Observable, Subscription } from 'rxjs';
   templateUrl: './observable-example.component.html',
   styleUrls: ['./observable-example.component.css']
 })
-export class ObservableExampleComponent implements OnInit, OnDestroy {
+export class ObservableExampleComponent implements OnInit {
   private obsSubscription: Subscription;
 
   constructor() {}
@@ -16,33 +16,34 @@ export class ObservableExampleComponent implements OnInit, OnDestroy {
   basicObservable() {
     const obs = new Observable(subscriber => {
       let count = 0;
-      try {
-        setInterval(() => {
-          subscriber.next(count);
-          count++;
-        }, 1000);
-      } catch (err) {
-        subscriber.next('error occured ');
-      }
+      setInterval(() => {
+        subscriber.next(count);
+        if (count === 5) {
+          subscriber.complete();
+        }
+        if (count >= 4) {
+          subscriber.error(new Error('Error Occured'));
+        }
+        count++;
+      }, 1000);
     });
 
     console.log('just before subscribe');
-    this.obsSubscription = obs.subscribe({
-      next(x) {
-        console.log(x);
+    this.obsSubscription = obs.subscribe(
+      res => {
+        console.log(res);
       },
-      error(x) {
-        console.log(x);
+      error => {
+        console.log(error);
       },
-      complete() {
-        console.log('Done');
+      () => {
+        console.log('Completed !!!');
       }
-    });
+    );
     console.log('just after subscribe');
   }
 
-  ngOnDestroy() {
-    // Unsubscribe an observable, ngOnDestroy
+  unSubscribe() {
     this.obsSubscription.unsubscribe();
   }
 }
