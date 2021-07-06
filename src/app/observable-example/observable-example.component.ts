@@ -1,3 +1,4 @@
+import { error } from '@angular/compiler/src/util';
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 
@@ -7,22 +8,28 @@ import { Observable } from 'rxjs';
   styleUrls: ['./observable-example.component.css']
 })
 export class ObservableExampleComponent implements OnInit {
-  constructor() {}
-
-  ngOnInit() {
-    const observable = new Observable(subscriber => {
+  obs = new Observable(subscriber => {
+    try {
       subscriber.next(1);
       subscriber.next(2);
       subscriber.next(3);
       subscriber.next(4);
-
       setTimeout(() => {
-        subscriber.next(5);
+        subscriber.next(5); // this will not execute
       }, 1000);
-    });
+      subscriber.complete();
+    } catch (err) {
+      subscriber.next('error occured ');
+    }
+  });
 
+  constructor() {}
+
+  ngOnInit() {}
+
+  basicObservable() {
     console.log('just before subscribe');
-    observable.subscribe({
+    const subscription = this.obs.subscribe({
       next(x) {
         console.log(x);
       },
@@ -34,5 +41,8 @@ export class ObservableExampleComponent implements OnInit {
       }
     });
     console.log('just after subscribe');
+    
+    // Unsubscribe an observable, ngOnDestroy
+    // subscription.unsubscribe();
   }
 }
