@@ -17,7 +17,9 @@ export class OperatorExampleComponent implements OnInit {
 
   constructor() {}
 
-  ngOnInit() {
+  ngOnInit() {}
+
+  subscribe() {
     this.obsSubscription = this.obs.subscribe(res => {
       console.log(res);
     });
