@@ -8,10 +8,11 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatTabsModule } from '@angular/material/tabs';
 import { PromiseExampleComponent } from './promise-example/promise-example.component';
 import { ObservableExampleComponent } from './observable-example/observable-example.component';
+import { OperatorExampleComponent } from './operator-example/operator-example.component';
 
 @NgModule({
   imports: [BrowserModule, BrowserAnimationsModule, FormsModule, MatTabsModule],
-  declarations: [AppComponent, HelloComponent, PromiseExampleComponent, ObservableExampleComponent],
+  declarations: [AppComponent, HelloComponent, PromiseExampleComponent, ObservableExampleComponent, OperatorExampleComponent],
   bootstrap: [AppComponent]
 })
 export class AppModule {}
