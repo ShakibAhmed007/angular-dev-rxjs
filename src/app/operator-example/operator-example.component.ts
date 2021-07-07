@@ -9,8 +9,10 @@ import { Subscription } from 'rxjs';
 })
 export class OperatorExampleComponent implements OnInit {
   private obs = new Observable(subscriber => {
+    let count = 0;
     setInterval(() => {
-      subscriber.next(1);
+      subscriber.next(count);
+      count++;
     }, 1000);
   });
   private obsSubscription: Subscription;
