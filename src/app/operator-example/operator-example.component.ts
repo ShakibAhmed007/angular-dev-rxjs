@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Subscription } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-operator-example',
@@ -22,9 +23,14 @@ export class OperatorExampleComponent implements OnInit {
   ngOnInit() {}
 
   subscribe() {
-    this.obsSubscription = this.obs.subscribe(res => {
-      console.log(res);
-    });
+    this.obsSubscription = this.obs
+      .pipe(
+        map((x: number) => x * 5),
+        map((x: number) => 'Round: ' + x)
+      )
+      .subscribe(res => {
+        console.log(res);
+      });
   }
 
   unSubscribe() {
