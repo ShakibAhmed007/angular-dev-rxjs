@@ -8,9 +8,16 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { PromiseExampleComponent } from './promise-example/promise-example.component';
 import { ObservableExampleComponent } from './observable-example/observable-example.component';
 import { OperatorExampleComponent } from './operator-example/operator-example.component';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
-  imports: [BrowserModule, BrowserAnimationsModule, FormsModule, MatTabsModule],
+  imports: [
+    RouterModule,
+    BrowserModule,
+    BrowserAnimationsModule,
+    FormsModule,
+    MatTabsModule
+  ],
   declarations: [
     AppComponent,
     HelloComponent,
