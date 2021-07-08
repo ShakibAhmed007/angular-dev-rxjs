@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Subscription } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { interval } from 'rxjs';
+import { map, take } from 'rxjs/operators';
 
 @Component({
   selector: 'app-operator-example',
@@ -9,13 +10,7 @@ import { map } from 'rxjs/operators';
   styleUrls: ['./operator-example.component.css']
 })
 export class OperatorExampleComponent implements OnInit {
-  private obs = new Observable(subscriber => {
-    let count = 0;
-    setInterval(() => {
-      subscriber.next(count);
-      count++;
-    }, 1000);
-  });
+  private obs = interval(1000);
   private obsSubscription: Subscription;
 
   constructor() {}
@@ -25,6 +20,7 @@ export class OperatorExampleComponent implements OnInit {
   subscribe() {
     this.obsSubscription = this.obs
       .pipe(
+        take(2),
         map((x: number) => x * 5),
         map((x: number) => 'Round: ' + x)
       )
