@@ -5,6 +5,7 @@ import { interval } from 'rxjs';
 import { combineLatest } from 'rxjs';
 import { concat } from 'rxjs';
 import { timer } from 'rxjs';
+import { forkJoin } from 'rxjs';
 import { map, take } from 'rxjs/operators';
 
 @Component({
@@ -59,5 +60,22 @@ export class OperatorExampleComponent implements OnInit {
     const c = concat(t1, t2).subscribe(res => {
       console.log(res);
     });
+  }
+
+  forkJoinExample() {
+    // https://www.learnrxjs.io/learn-rxjs/operators/combination/forkjoin
+
+    const t1 = interval(1000).pipe(take(5));
+    const t2 = interval(2000).pipe(take(3));
+    const t3 = interval(3000).pipe(take(2));
+    const c = forkJoin([t1, t2, t3])
+      .pipe(
+        map(
+          res => 'Round: ' + res[0] + ' Round: ' + res[1] + ' Round : ' + res[2]
+        )
+      )
+      .subscribe(res => {
+        console.log(res);
+      });
   }
 }
