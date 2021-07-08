@@ -3,6 +3,7 @@ import { Observable } from 'rxjs';
 import { Subscription } from 'rxjs';
 import { interval } from 'rxjs';
 import { combineLatest } from 'rxjs';
+import { concat } from 'rxjs';
 import { timer } from 'rxjs';
 import { map, take } from 'rxjs/operators';
 
@@ -50,5 +51,13 @@ export class OperatorExampleComponent implements OnInit {
       .subscribe(res => {
         console.log(res);
       });
+  }
+
+  concatExample() {
+    const t1 = interval(2000).pipe(take(4));
+    const t2 = interval(4000).pipe(take(2));
+    const c = concat(t1, t2).subscribe(res => {
+      console.log(res);
+    });
   }
 }
