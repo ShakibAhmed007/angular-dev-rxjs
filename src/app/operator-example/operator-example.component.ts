@@ -38,6 +38,7 @@ export class OperatorExampleComponent implements OnInit {
     this.obsSubscription.unsubscribe();
   }
 
+  // section combine
   combineLatestExample() {
     const a = [1, 3, 5, 7];
     const b = [2, 4, 6, 8];
@@ -55,6 +56,7 @@ export class OperatorExampleComponent implements OnInit {
       });
   }
 
+  // section concat
   concatExample() {
     const t1 = interval(2000).pipe(take(4));
     const t2 = interval(4000).pipe(take(2));
@@ -63,6 +65,7 @@ export class OperatorExampleComponent implements OnInit {
     });
   }
 
+  // section forkjoin
   forkJoinExample() {
     // Study doc
     // https://www.learnrxjs.io/learn-rxjs/operators/combination/forkjoin
@@ -92,4 +95,7 @@ export class OperatorExampleComponent implements OnInit {
       console.log('Address --->>>', JSON.stringify(res[1]));
     });
   }
+
+  // section merge
+  mergeExample() {}
 }
