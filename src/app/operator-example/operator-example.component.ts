@@ -7,6 +7,7 @@ import { concat } from 'rxjs';
 import { timer } from 'rxjs';
 import { forkJoin } from 'rxjs';
 import { map, take } from 'rxjs/operators';
+import { DataService } from './data.service';
 
 @Component({
   selector: 'app-operator-example',
@@ -17,7 +18,7 @@ export class OperatorExampleComponent implements OnInit {
   private obs = interval(1000);
   private obsSubscription: Subscription;
 
-  constructor() {}
+  constructor(private service: DataService) {}
 
   ngOnInit() {}
 
@@ -63,8 +64,10 @@ export class OperatorExampleComponent implements OnInit {
   }
 
   forkJoinExample() {
+    // Study doc
     // https://www.learnrxjs.io/learn-rxjs/operators/combination/forkjoin
 
+    // Basic example
     const t1 = interval(1000).pipe(take(5));
     const t2 = interval(2000).pipe(take(3));
     const t3 = interval(3000).pipe(take(2));
@@ -75,7 +78,19 @@ export class OperatorExampleComponent implements OnInit {
         )
       )
       .subscribe(res => {
-        console.log(res);
+        console.log();
+        console.log(
+          'Data will be printing after all observable complete  ',
+          res
+        );
       });
+
+    // Example
+    const user = this.service.getUser();
+    const address = this.service.getAddress();
+    forkJoin([user, address]).subscribe(res => {
+      console.log('User ---', JSON.stringify(res[0]));
+      console.log('address ---', JSON.stringify(res[1]));
+    });
   }
 }
