@@ -67,10 +67,10 @@ export class OperatorExampleComponent implements OnInit {
   }
 
   // section forkjoin
-  forkJoinExample() {
-    // Study doc
-    // https://www.learnrxjs.io/learn-rxjs/operators/combination/forkjoin
+  // Study doc
+  // https://www.learnrxjs.io/learn-rxjs/operators/combination/forkjoin
 
+  forkJoinExample() {
     // Basic example
     const t1 = interval(1000).pipe(take(5));
     const t2 = interval(2000).pipe(take(3));
