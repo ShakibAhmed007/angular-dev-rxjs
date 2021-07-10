@@ -112,22 +112,23 @@ export class OperatorExampleComponent implements OnInit {
     merge(f1, f2).subscribe(res => {
       console.log(res);
     });
+  }
 
-    //
+  mergeMapExample() {
     const user = this.service.getUser().pipe(delay(5000));
     user
       .pipe(
         mergeMap(res1 => {
           console.log('First Response --->>>', JSON.stringify(res1));
           // get second response based on first response
-          return this.service.getAddress();
+          return this.service.getAddress().pipe(delay(10000));
         })
       )
       .pipe(
         mergeMap(res2 => {
           console.log('Second Response --->>>', JSON.stringify(res2));
           // get third response based on second response
-          return this.service.getJobInfo();
+          return this.service.getJobInfo().pipe(delay(2000));
         })
       )
       .subscribe(res3 => {
