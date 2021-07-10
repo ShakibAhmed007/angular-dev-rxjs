@@ -6,7 +6,8 @@ import { combineLatest } from 'rxjs';
 import { concat } from 'rxjs';
 import { timer } from 'rxjs';
 import { forkJoin } from 'rxjs';
-import { delay, map, take } from 'rxjs/operators';
+import { merge } from 'rxjs';
+import { delay, map, mapTo, mergeMap, take } from 'rxjs/operators';
 import { DataService } from './data.service';
 
 @Component({
@@ -97,5 +98,40 @@ export class OperatorExampleComponent implements OnInit {
   }
 
   // section merge
-  mergeExample() {}
+  mergeExample() {
+    const f1 = interval(1000).pipe(
+      take(2),
+      mapTo('FirstTO!!!')
+    );
+
+    const f2 = interval(2000).pipe(
+      take(2),
+      mapTo('SecondTO!!!')
+    );
+
+    merge(f1, f2).subscribe(res => {
+      console.log(res);
+    });
+
+    //
+    const user = this.service.getUser().pipe(delay(5000));
+    user
+      .pipe(
+        mergeMap(res1 => {
+          console.log('First Response --->>>', JSON.stringify(res1));
+          // get second response based on first response
+          return this.service.getAddress();
+        })
+      )
+      .pipe(
+        mergeMap(res2 => {
+          console.log('Second Response --->>>', JSON.stringify(res2));
+          // get third response based on second response
+          return this.service.getJobInfo();
+        })
+      )
+      .subscribe(res3 => {
+        console.log('Third Respone --->>>', JSON.stringify(res3));
+      });
+  }
 }
