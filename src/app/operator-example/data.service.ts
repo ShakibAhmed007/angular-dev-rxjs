@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { of } from 'rxjs';
 import { Observable } from 'rxjs';
+import { from } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -11,27 +12,32 @@ export class DataService {
       {
         id: 1,
         name: 'Shakib',
-        email: 's@gmail.com'
+        email: 's@gmail.com',
+        age: 20
       },
       {
         id: 2,
         name: 'Shakib',
-        email: 's@gmail.com'
+        email: 's@gmail.com',
+        age: 22
       },
       {
         id: 3,
         name: 'Shakib',
-        email: 's@gmail.com'
+        email: 's@gmail.com',
+        age: 25
       },
       {
-        id: 3,
+        id: 4,
         name: 'Shakib',
-        email: 's@gmail.com'
+        email: 's@gmail.com',
+        age: 25
       },
       {
-        id: 3,
+        id: 5,
         name: 'Shakib',
-        email: 's@gmail.com'
+        email: 's@gmail.com',
+        age: 30
       }
     ];
 

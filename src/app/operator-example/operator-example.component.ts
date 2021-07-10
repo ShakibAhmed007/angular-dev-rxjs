@@ -8,15 +8,19 @@ import { timer } from 'rxjs';
 import { forkJoin } from 'rxjs';
 import { merge } from 'rxjs';
 import { of } from 'rxjs';
+import { from } from 'rxjs';
+
 import {
   concatMap,
   delay,
   endWith,
+  groupBy,
   map,
   mapTo,
   mergeMap,
   startWith,
-  take
+  take,
+  toArray
 } from 'rxjs/operators';
 import { DataService } from './data.service';
 
@@ -194,9 +198,22 @@ export class OperatorExampleComponent implements OnInit {
     source$.pipe(startWith('Friend')).subscribe(val => console.log(val));
   }
 
-
-  groupByExample(){
-    
+  groupByExample() {
+    const people = [
+      { name: 'Sue', age: 25 },
+      { name: 'Joe', age: 30 },
+      { name: 'Frank', age: 25 },
+      { name: 'Sarah', age: 35 }
+    ];
+    //emit each person
+    const source = from(people);
+    const example = source.pipe(
+      groupBy(person => person.age),
+      mergeMap(group => group.pipe(toArray()))
+    );
+    const subscribe = example.subscribe(val =>
+      console.log(JSON.stringify(val))
+    );
   }
 
   // differenr mergemap , concatmap
