@@ -7,7 +7,17 @@ import { concat } from 'rxjs';
 import { timer } from 'rxjs';
 import { forkJoin } from 'rxjs';
 import { merge } from 'rxjs';
-import { concatMap, delay, map, mapTo, mergeMap, take } from 'rxjs/operators';
+import { of } from 'rxjs';
+import {
+  concatMap,
+  delay,
+  endWith,
+  map,
+  mapTo,
+  mergeMap,
+  startWith,
+  take
+} from 'rxjs/operators';
 import { DataService } from './data.service';
 
 @Component({
@@ -171,6 +181,17 @@ export class OperatorExampleComponent implements OnInit {
       .subscribe(res3 => {
         console.log('Third Respone --->>>', JSON.stringify(res3));
       });
+  }
+
+  // start and end with
+  endWithExample() {
+    const source$ = of('Hello', 'Friend', 'Goodbye');
+    source$.pipe(endWith('Friend')).subscribe(val => console.log(val));
+  }
+
+  startWithExample() {
+    const source$ = of('Hello', 'Friend', 'Goodbye');
+    source$.pipe(startWith('Friend')).subscribe(val => console.log(val));
   }
 
   // differenr mergemap , concatmap
