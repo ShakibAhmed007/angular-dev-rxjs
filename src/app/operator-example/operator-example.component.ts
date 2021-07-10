@@ -7,7 +7,7 @@ import { concat } from 'rxjs';
 import { timer } from 'rxjs';
 import { forkJoin } from 'rxjs';
 import { merge } from 'rxjs';
-import { delay, map, mapTo, mergeMap, take } from 'rxjs/operators';
+import { concatMap, delay, map, mapTo, mergeMap, take } from 'rxjs/operators';
 import { DataService } from './data.service';
 
 @Component({
@@ -58,12 +58,44 @@ export class OperatorExampleComponent implements OnInit {
   }
 
   // section concat
+  // study doc
+  // https://rxjs.dev/api/index/function/concat
+  //https://www.learnrxjs.io/learn-rxjs/operators/transformation/concatmap
+
   concatExample() {
-    const t1 = interval(2000).pipe(take(4));
-    const t2 = interval(4000).pipe(take(2));
+    const t1 = interval(2000).pipe(
+      take(4),
+      mapTo('First !!!')
+    );
+    const t2 = interval(4000).pipe(
+      take(2),
+      mapTo('Second !!!')
+    );
     const c = concat(t1, t2).subscribe(res => {
       console.log(res);
     });
+  }
+
+  concatMapExample() {
+    const user = this.service.getUser().pipe(delay(10000));
+    user
+      .pipe(
+        concatMap(res1 => {
+          console.log('First Response --->>>', JSON.stringify(res1));
+          // get second response based on first response
+          return this.service.getAddress().pipe(delay(500));
+        })
+      )
+      .pipe(
+        concatMap(res2 => {
+          console.log('Second Response --->>>', JSON.stringify(res2));
+          // get third response based on second response
+          return this.service.getJobInfo().pipe(delay(10000));
+        })
+      )
+      .subscribe(res3 => {
+        console.log('Third Respone --->>>', JSON.stringify(res3));
+      });
   }
 
   // section forkjoin
@@ -120,20 +152,20 @@ export class OperatorExampleComponent implements OnInit {
   }
 
   mergeMapExample() {
-    const user = this.service.getUser().pipe(delay(5000));
+    const user = this.service.getUser().pipe(delay(10000));
     user
       .pipe(
         mergeMap(res1 => {
           console.log('First Response --->>>', JSON.stringify(res1));
           // get second response based on first response
-          return this.service.getAddress().pipe(delay(10000));
+          return this.service.getAddress().pipe(delay(500));
         })
       )
       .pipe(
         mergeMap(res2 => {
           console.log('Second Response --->>>', JSON.stringify(res2));
           // get third response based on second response
-          return this.service.getJobInfo().pipe(delay(2000));
+          return this.service.getJobInfo().pipe(delay(10000));
         })
       )
       .subscribe(res3 => {
