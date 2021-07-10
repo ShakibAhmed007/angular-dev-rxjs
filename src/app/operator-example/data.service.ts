@@ -49,4 +49,26 @@ export class DataService {
 
     return of(address);
   }
+
+  getJobInfo(): Observable<any> {
+    const address = [
+      {
+        id: 1,
+        city: 'Dhaka',
+        country: 'Bangladesh'
+      },
+      {
+        id: 2,
+        city: 'Dhaka',
+        country: 'Bangladesh'
+      },
+      {
+        id: 3,
+        city: 'Dhaka',
+        country: 'Bangladesh'
+      }
+    ];
+
+    return of(address);
+  }
 }
