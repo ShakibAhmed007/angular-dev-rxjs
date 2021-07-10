@@ -6,7 +6,7 @@ import { combineLatest } from 'rxjs';
 import { concat } from 'rxjs';
 import { timer } from 'rxjs';
 import { forkJoin } from 'rxjs';
-import { map, take } from 'rxjs/operators';
+import { delay, map, take } from 'rxjs/operators';
 import { DataService } from './data.service';
 
 @Component({
@@ -78,19 +78,18 @@ export class OperatorExampleComponent implements OnInit {
         )
       )
       .subscribe(res => {
-        console.log();
-        console.log(
-          'Data will be printing after all observable complete  ',
-          res
-        );
+        console.log('Data will print after all observable complete --->>> ');
+        console.log(res);
       });
 
     // Example
-    const user = this.service.getUser();
-    const address = this.service.getAddress();
+    // Added delay to see actual behavior of http request
+
+    const user = this.service.getUser().pipe(delay(1000));
+    const address = this.service.getAddress().pipe(delay(10000));
     forkJoin([user, address]).subscribe(res => {
-      console.log('User ---', JSON.stringify(res[0]));
-      console.log('address ---', JSON.stringify(res[1]));
+      console.log('User --->>>', JSON.stringify(res[0]));
+      console.log('Address --->>>', JSON.stringify(res[1]));
     });
   }
 }
