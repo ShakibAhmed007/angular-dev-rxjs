@@ -172,4 +172,7 @@ export class OperatorExampleComponent implements OnInit {
         console.log('Third Respone --->>>', JSON.stringify(res3));
       });
   }
+
+  // differenr mergemap , concatmap
+  // https://thinkrx.io/rxjs/mergeMap-vs-exhaustMap-vs-switchMap-vs-concatMap/
 }
