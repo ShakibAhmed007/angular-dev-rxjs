@@ -22,6 +22,16 @@ export class DataService {
         id: 3,
         name: 'Shakib',
         email: 's@gmail.com'
+      },
+      {
+        id: 3,
+        name: 'Shakib',
+        email: 's@gmail.com'
+      },
+      {
+        id: 3,
+        name: 'Shakib',
+        email: 's@gmail.com'
       }
     ];
 

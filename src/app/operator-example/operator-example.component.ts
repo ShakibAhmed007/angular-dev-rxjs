@@ -194,6 +194,11 @@ export class OperatorExampleComponent implements OnInit {
     source$.pipe(startWith('Friend')).subscribe(val => console.log(val));
   }
 
+
+  groupByExample(){
+    
+  }
+
   // differenr mergemap , concatmap
   // https://thinkrx.io/rxjs/mergeMap-vs-exhaustMap-vs-switchMap-vs-concatMap/
 }
