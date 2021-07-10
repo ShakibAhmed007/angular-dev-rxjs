@@ -99,8 +99,10 @@ export class OperatorExampleComponent implements OnInit {
 
   // section merge
   // study doc
-  // https://indepth.dev/reference/rxjs/operators/merge-map
+  // https://rxjs.dev/api/operators/mergeMap
   // https://www.learnrxjs.io/learn-rxjs/operators/transformation/mergemap
+  // https://indepth.dev/reference/rxjs/operators/merge-map
+
   mergeExample() {
     const f1 = interval(1000).pipe(
       take(2),
