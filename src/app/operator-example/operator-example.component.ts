@@ -12,6 +12,7 @@ import { from } from 'rxjs';
 
 import {
   concatMap,
+  debounce,
   delay,
   endWith,
   groupBy,
@@ -214,6 +215,13 @@ export class OperatorExampleComponent implements OnInit {
     const subscribe = example.subscribe(val =>
       console.log(JSON.stringify(val))
     );
+  }
+
+  debounceExample() {
+    //emit four strings
+    const example = of('WAIT', 'ONE', 'SECOND', 'Last will display');
+    const debouncedExample = example.pipe(debounce(() => timer(1000)));
+    const subscribe = debouncedExample.subscribe(val => console.log(val));
   }
 
   // differenr mergemap , concatmap
