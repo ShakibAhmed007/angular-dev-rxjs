@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Subscription } from 'rxjs';
 import { interval } from 'rxjs';
@@ -9,7 +9,8 @@ import { forkJoin } from 'rxjs';
 import { merge } from 'rxjs';
 import { of } from 'rxjs';
 import { from } from 'rxjs';
-
+import { fromEvent } from 'rxjs';
+import { debounceTime } from 'rxjs/operators';
 import {
   concatMap,
   debounce,
@@ -30,13 +31,15 @@ import { DataService } from './data.service';
   templateUrl: './operator-example.component.html',
   styleUrls: ['./operator-example.component.css']
 })
-export class OperatorExampleComponent implements OnInit {
+export class OperatorExampleComponent implements OnInit, AfterViewInit {
   private obs = interval(1000);
   private obsSubscription: Subscription;
 
   constructor(private service: DataService) {}
 
   ngOnInit() {}
+
+  ngAfterViewInit() {}
 
   subscribe() {
     this.obsSubscription = this.obs
@@ -222,6 +225,19 @@ export class OperatorExampleComponent implements OnInit {
     const example = of('WAIT', 'ONE', 'SECOND', 'Last will display');
     const debouncedExample = example.pipe(debounce(() => timer(1000)));
     const subscribe = debouncedExample.subscribe(val => console.log(val));
+  }
+
+  debounceTimeExample() {
+    const searchBox = document.getElementById('search');
+    console.log(searchBox);
+    const keyup$ = fromEvent(searchBox, 'keyup');
+    // wait .5s between keyups to emit current value
+    keyup$
+      .pipe(
+        map((i: any) => i.currentTarget.value),
+        debounceTime(500)
+      )
+      .subscribe(res => console.log(res));
   }
 
   // differenr mergemap , concatmap
