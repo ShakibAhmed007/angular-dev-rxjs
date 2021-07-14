@@ -39,9 +39,7 @@ export class OperatorExampleComponent implements OnInit, AfterViewInit {
 
   ngOnInit() {}
 
-  ngAfterViewInit() {
-    this.debounceTimeExample();
-  }
+  ngAfterViewInit() {}
 
   subscribe() {
     this.obsSubscription = this.obs
