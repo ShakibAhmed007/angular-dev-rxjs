@@ -10,7 +10,12 @@ import { merge } from 'rxjs';
 import { of } from 'rxjs';
 import { from } from 'rxjs';
 import { fromEvent } from 'rxjs';
-import { debounceTime, distinct, distinctUntilChanged } from 'rxjs/operators';
+import {
+  debounceTime,
+  distinct,
+  distinctUntilChanged,
+  filter
+} from 'rxjs/operators';
 import {
   concatMap,
   debounce,
@@ -272,6 +277,22 @@ export class OperatorExampleComponent implements OnInit, AfterViewInit {
         distinctUntilChanged()
       )
       .subscribe(res => console.log(res));
+  }
+
+  // section filter
+  filterExample() {
+    // example 1
+    const data = of(1, 2, 3, 4, 5, 6, 7, 8, 9, 0);
+    data.pipe(filter(d => d > 5)).subscribe(res => {
+      console.log(res);
+    });
+
+    // example 2
+    const source = from([{ name: 'Joe', age: 31 }, { name: 'Bob', age: 25 }]);
+    const example = source.pipe(filter(person => person['age'] >= 30));
+    const subscribe = example.subscribe(val =>
+      console.log(`Over 30: ${val.name}`)
+    );
   }
 
   // differenr mergemap , concatmap
