@@ -10,7 +10,7 @@ import { merge } from 'rxjs';
 import { of } from 'rxjs';
 import { from } from 'rxjs';
 import { fromEvent } from 'rxjs';
-import { debounceTime } from 'rxjs/operators';
+import { debounceTime, distinct, distinctUntilChanged } from 'rxjs/operators';
 import {
   concatMap,
   debounce,
@@ -212,7 +212,7 @@ export class OperatorExampleComponent implements OnInit, AfterViewInit {
     //emit each person
     const source = from(people);
     const example = source.pipe(
-      groupBy(person => person.age),
+      groupBy(person => person['age']),
       mergeMap(group => group.pipe(toArray()))
     );
     const subscribe = example.subscribe(val =>
@@ -220,6 +220,7 @@ export class OperatorExampleComponent implements OnInit, AfterViewInit {
     );
   }
 
+  // section debounce
   debounceExample() {
     //emit four strings
     const example = of('WAIT', 'ONE', 'SECOND', 'Last will display');
@@ -236,6 +237,39 @@ export class OperatorExampleComponent implements OnInit, AfterViewInit {
       .pipe(
         map((i: any) => i.currentTarget.value),
         debounceTime(500)
+      )
+      .subscribe(res => console.log(res));
+  }
+
+  // section distinct
+  distinctExample() {
+    // example 1
+    const example = of(1, 2, 3, 4, 5, 1, 2, 3, 6, 7, 1, 2, 3, 8, 9);
+    example.pipe(distinct()).subscribe(res => {
+      console.log('res ---- >>>', res);
+    });
+
+    // example 2
+    const obj1 = { id: 3, name: 'name 1' };
+    const obj2 = { id: 4, name: 'name 2' };
+    const obj3 = { id: 3, name: 'name 3' };
+    const vals = [obj1, obj2, obj3];
+    from(vals)
+      .pipe(distinct(e => e['id']))
+      .subscribe(res => console.log(res));
+  }
+
+  distinctUntilChangeExample() {
+    const searchBox = document.getElementById('search1');
+    console.log(searchBox);
+    const keyup$ = fromEvent(searchBox, 'keyup');
+    // wait .5s between keyups to emit current value
+    // apply distinct until changed
+    keyup$
+      .pipe(
+        map((i: any) => i.currentTarget.value),
+        debounceTime(500),
+        distinctUntilChanged()
       )
       .subscribe(res => console.log(res));
   }
