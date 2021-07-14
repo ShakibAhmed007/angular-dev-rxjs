@@ -14,7 +14,9 @@ import {
   debounceTime,
   distinct,
   distinctUntilChanged,
-  filter
+  filter,
+  first,
+last
 } from 'rxjs/operators';
 import {
   concatMap,
@@ -292,6 +294,22 @@ export class OperatorExampleComponent implements OnInit, AfterViewInit {
     const example = source.pipe(filter(person => person['age'] >= 30));
     const subscribe = example.subscribe(val =>
       console.log(`Over 30: ${val.name}`)
+    );
+  }
+
+  firstExample() {
+    const source = from([1, 2, 3, 4, 5, 5, 5]);
+    const example = source.pipe(first(num => num > 3));
+    const subscribe = example.subscribe(val =>
+      console.log(`First to pass test: ${val}`)
+    );
+  }
+
+  lastExample() {
+    const source = from([1, 2, 3, 4, 5, 5, 5]);
+    const example = source.pipe(last(num => num > 3));
+    const subscribe = example.subscribe(val =>
+      console.log(`First to pass test: ${val}`)
     );
   }
 
